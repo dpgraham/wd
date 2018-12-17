@@ -1,4 +1,5 @@
 --require ./test/helpers/quit-gracefully
+--require @babel/register
 --ui bdd-with-opts
 --reporter spec
 --timeout 60000

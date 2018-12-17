@@ -13,7 +13,7 @@ describe("mjson tests", function () {
   describe("promise api", function () {
     let browser;
 
-    before(function (done) {
+    before(async function () {
       server.post('/session').reply(303, "OK", {
         'Location': '/session/1234'
       }).get('/session/1234').reply(200, {
@@ -22,15 +22,13 @@ describe("mjson tests", function () {
         value: {}
       });
 
-      browser = wd.promiseChainRemote('http://localhost:5555/');
-      browser
-        .init()
-        .nodeify(done);
+      browser = await wd.promiseChainRemote('http://localhost:5555/');
+      await browser.init();
     });
 
     describe("by ios uiautomation", function () {
 
-      it("element methods should work", function (done) {
+      it.only("element methods should work", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/element', {"using": "-ios uiautomation", "value": "random stuff"})
