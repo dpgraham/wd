@@ -1,23 +1,23 @@
-var Args = require('vargs').Constructor;
+let Args = require('vargs').Constructor;
 
 global.skip = function () {
-  var cat = null;
-  var patterns = {
+  let cat = null;
+  let patterns = {
     'iphone': 'ios',
     'ipad': 'ios',
     'ios': 'ios',
     'android': 'android'
   };
-  _(patterns).each(function(_cat, pattern) {
-    var re = new RegExp(pattern, 'i');
-    if((env.BROWSER || "").match(re)) {
-        cat = _cat;
+  _(patterns).each(function (_cat, pattern) {
+    let re = new RegExp(pattern, 'i');
+    if ((env.BROWSER || "").match(re)) {
+      cat = _cat;
     }
   });
-  var args = new Args(arguments);
-  var found = _(args.all).find(function(skipConfig) {
-    var re = new RegExp( '^' + skipConfig + '$','i');
-    return (env.BROWSER || "").match(re) || (cat||"").match(re);
+  let args = new Args(arguments);
+  let found = _(args.all).find(function (skipConfig) {
+    let re = new RegExp('^' + skipConfig + '$', 'i');
+    return (env.BROWSER || "").match(re) || (cat || "").match(re);
   });
   return found ? {pending: true} : {};
 };

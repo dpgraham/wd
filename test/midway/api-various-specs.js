@@ -1,28 +1,28 @@
 require('../helpers/setup');
 
-var imageinfo = require('imageinfo');
-var path = require('path');
-var fs = require('fs');
-var tmp = require('../../lib/tmp');
+let imageinfo = require('imageinfo');
+let path = require('path');
+let fs = require('fs');
+let tmp = require('../../lib/tmp');
 
-describe('api-various ' + env.ENV_DESC, function() {
-  var partials = {};
+describe('api-various ' + env.ENV_DESC, function () {
+  let partials = {};
 
-  var browser;
-  require('./midway-base')(this, partials).then(function(_browser) { browser = _browser; });
+  let browser;
+  require('./midway-base')(this, partials).then(function (_browser) { browser = _browser; });
 
   partials['browser.getLocation'] =
     '<div id="theDiv">I\'ve got a location</div>\n';
-  it('browser.getLocation', function() {
+  it('browser.getLocation', function () {
     return browser
-      .elementByCss("#theDiv").then(function(el) {
+      .elementByCss("#theDiv").then(function (el) {
         return browser
-          .getLocation(el).then(function(location) {
+          .getLocation(el).then(function (location) {
             should.exist(location.x);
             should.exist(location.y);
           });
       })
-      .elementByCss("#theDiv").getLocation().then(function(location) {
+      .elementByCss("#theDiv").getLocation().then(function (location) {
         should.exist(location.x);
         should.exist(location.y);
       });
@@ -30,16 +30,16 @@ describe('api-various ' + env.ENV_DESC, function() {
 
   partials['browser.getLocationInView'] =
     '<div id="theDiv">I\'ve got a location</div>\n';
-  it('browser.getLocationInView', function() {
+  it('browser.getLocationInView', function () {
     return browser
-      .elementByCss("#theDiv").then(function(el) {
+      .elementByCss("#theDiv").then(function (el) {
         return browser
-          .getLocationInView(el).then(function(location) {
+          .getLocationInView(el).then(function (location) {
             should.exist(location.x);
             should.exist(location.y);
           });
       })
-      .elementByCss("#theDiv").getLocationInView().then(function(location) {
+      .elementByCss("#theDiv").getLocationInView().then(function (location) {
         should.exist(location.x);
         should.exist(location.y);
       });
@@ -47,16 +47,16 @@ describe('api-various ' + env.ENV_DESC, function() {
 
   partials['browser.getSize'] =
     '<div id="theDiv">I\'ve got a good size!</div>\n';
-  it('browser.getSize', function() {
+  it('browser.getSize', function () {
     return browser
-      .elementByCss("#theDiv").then(function(el) {
+      .elementByCss("#theDiv").then(function (el) {
         return browser
-          .getSize(el).then(function(size) {
+          .getSize(el).then(function (size) {
             should.exist(size.width);
             should.exist(size.height);
           });
       })
-      .elementByCss("#theDiv").getSize().then(function(size) {
+      .elementByCss("#theDiv").getSize().then(function (size) {
         should.exist(size.width);
         should.exist(size.height);
       });
@@ -64,7 +64,7 @@ describe('api-various ' + env.ENV_DESC, function() {
 
   partials['browser.acceptAlert'] =
     '<div id="theDiv"><a>click me</a></div>\n';
-  it('browser.acceptAlert', function() {
+  it('browser.acceptAlert', function () {
     return browser
       .execute(
         'jQuery( function() {\n' +
@@ -81,7 +81,7 @@ describe('api-various ' + env.ENV_DESC, function() {
 
   partials['browser.dismissAlert'] =
     '<div id="theDiv"><a>click me</a></div>\n';
-  it('browser.dismissAlert', skip('chrome'), function() {
+  it('browser.dismissAlert', skip('chrome'), function () {
     return browser
       .execute(
         'jQuery( function() {\n' +
@@ -96,11 +96,11 @@ describe('api-various ' + env.ENV_DESC, function() {
       .dismissAlert();
   });
 
-  it('browser.takeScreenshot', function() {
+  it('browser.takeScreenshot', function () {
     return browser
-      .takeScreenshot().then(function(res) {
-        var data = new Buffer(res, 'base64');
-        var img = imageinfo(data);
+      .takeScreenshot().then(function (res) {
+        let data = new Buffer(res, 'base64');
+        let img = imageinfo(data);
         img.should.not.be.false;
         img.format.should.equal('PNG');
         img.width.should.not.equal(0);
@@ -108,30 +108,30 @@ describe('api-various ' + env.ENV_DESC, function() {
       });
   });
 
-  it('browser.saveScreenshot', function() {
-    var mydir = path.join(tmp.tmpdir , 'myscreenshot');
-    try { fs.mkdirSync(mydir); } catch(ign) {}
+  it('browser.saveScreenshot', function () {
+    let mydir = path.join(tmp.tmpdir, 'myscreenshot');
+    try { fs.mkdirSync(mydir); } catch (ign) {}
 
     return browser
-      .saveScreenshot( mydir + '/abc.png')
-      .should.become( mydir + '/abc.png')
-      .then(function() {
-        var res;
-        try{
+      .saveScreenshot(mydir + '/abc.png')
+      .should.become(mydir + '/abc.png')
+      .then(function () {
+        let res;
+        try {
           res = fs.readFileSync(mydir + '/abc.png', {encoding: 'base64'});
-        }catch(err){
+        } catch (err) {
           // for 0.8
           res = fs.readFileSync(mydir + '/abc.png');
         }
-        var data = new Buffer(res, 'base64');
-        var img = imageinfo(data);
+        let data = new Buffer(res, 'base64');
+        let img = imageinfo(data);
         img.should.not.be.false;
         img.format.should.equal('PNG');
         img.width.should.not.equal(0);
         img.height.should.not.equal(0);
       })
-      .saveScreenshot( mydir + '/aaa')
-      .should.become( mydir + '/aaa.png')
+      .saveScreenshot(mydir + '/aaa')
+      .should.become(mydir + '/aaa.png')
       .saveScreenshot(mydir + '/')
         .should.eventually.match(/\/myscreenshot\/screenshot-\w+\.png$/)
       .saveScreenshot()
@@ -139,7 +139,7 @@ describe('api-various ' + env.ENV_DESC, function() {
   });
 
   // cookie don't seem to work in explorer
-  it('browser.<cookie methods>', skip('explorer'), function() {
+  it('browser.<cookie methods>', skip('explorer'), function () {
     return browser
       .deleteAllCookies()
       .allCookies().should.eventually.deep.equal([])
@@ -147,9 +147,9 @@ describe('api-various ' + env.ENV_DESC, function() {
         name: 'fruit1',
         value: 'apple'
       })
-      .allCookies().then(function(res) {
+      .allCookies().then(function (res) {
         res.should.have.length(1);
-        res.filter(function(c) {
+        res.filter(function (c) {
           return c.name === 'fruit1' && c.value === 'apple';
         }).should.have.length(1);
       })
@@ -157,9 +157,9 @@ describe('api-various ' + env.ENV_DESC, function() {
         name: 'fruit2',
         value: 'pear'
       })
-      .allCookies().then(function(res) {
+      .allCookies().then(function (res) {
         res.should.have.length(2);
-        res.filter(function(c) {
+        res.filter(function (c) {
           return c.name === 'fruit1' && c.value === 'apple';
         }).should.have.length(1);
       })
@@ -169,9 +169,9 @@ describe('api-various ' + env.ENV_DESC, function() {
       })
       .allCookies().should.eventually.have.length(3)
       .deleteCookie('fruit2')
-      .allCookies().then(function(res) {
+      .allCookies().then(function (res) {
         res.should.have.length(2);
-        res.filter(function(c) {
+        res.filter(function (c) {
           return c.name === 'fruit2' && c.value === 'pear';
         }).should.have.length(0);
       })
@@ -186,7 +186,7 @@ describe('api-various ' + env.ENV_DESC, function() {
       .deleteAllCookies();
   });
 
-  it('browser.<localStorage methods>', function() {
+  it('browser.<localStorage methods>', function () {
     return browser
       .setLocalStorageKey('foo', 'bar')
       .getLocalStorageKey('foo').should.become('bar')
@@ -198,7 +198,7 @@ describe('api-various ' + env.ENV_DESC, function() {
       .getLocalStorageKey("ham").should.eventually.be.a('null');
   });
 
-  it('browser.uploadFile', function() {
+  it('browser.uploadFile', function () {
     return browser
       .uploadFile("test/mocha.opts").should.eventually.include('mocha.opts')
       .uploadFile("test/midway/assets/tux.jpg").should.eventually.include('tux.jpg');
@@ -210,7 +210,7 @@ describe('api-various ' + env.ENV_DESC, function() {
     '  <input class="i1" type="text" value="input 1">\n' +
     '  <input class="i2" type="text" value="input 2">\n' +
     '</div>\n';
-  it('browser.active', function() {
+  it('browser.active', function () {
     return browser
       .elementByCss("#theDiv .i1").click()
       .active().getValue().should.become("input 1")
@@ -222,9 +222,9 @@ describe('api-various ' + env.ENV_DESC, function() {
     '<div id="theDiv">\n' +
     '  <a href="#">a1</a>\n' +
     '</div>\n';
-  it('browser.isVisible', function() {
+  it('browser.isVisible', function () {
     return browser
-      .elementByCss("#theDiv a").then(function(el) {
+      .elementByCss("#theDiv a").then(function (el) {
         return browser
           .isVisible(el).should.eventually.be.ok;
       })
@@ -240,12 +240,12 @@ describe('api-various ' + env.ENV_DESC, function() {
     '  <input class="displayed" type="text" value="Hello">\n' +
     '  <input class="hidden" type="hidden" value="Hello">\n' +
     '</div>\n';
-  it('browser.isDisplayed', function() {
+  it('browser.isDisplayed', function () {
     return browser
-      .elementByCss('#theDiv .displayed').then(function(el) {
+      .elementByCss('#theDiv .displayed').then(function (el) {
         return browser.isDisplayed(el).should.eventually.be.ok;
       })
-      .elementByCss('#theDiv .hidden').then(function(el) {
+      .elementByCss('#theDiv .hidden').then(function (el) {
         return browser.isDisplayed(el).should.eventually.not.be.ok;
       })
       .elementByCss('#theDiv .displayed').isDisplayed().should.eventually.be.ok
@@ -257,40 +257,40 @@ describe('api-various ' + env.ENV_DESC, function() {
     '  <input class="enabled" type="text" value="Hello">\n' +
     '  <input class="disabled" type="text" value="Hello" disabled>\n' +
     '</div>\n';
-  it('browser.isEnabled', function() {
+  it('browser.isEnabled', function () {
     return browser
-      .elementByCss('#theDiv .enabled').then(function(el) {
+      .elementByCss('#theDiv .enabled').then(function (el) {
         return browser.isEnabled(el).should.eventually.be.ok;
       })
-      .elementByCss('#theDiv .disabled').then(function(el) {
+      .elementByCss('#theDiv .disabled').then(function (el) {
         return browser.isEnabled(el).should.eventually.not.be.ok;
       })
       .elementByCss('#theDiv .enabled').isEnabled().should.eventually.be.ok
       .elementByCss('#theDiv .disabled').isEnabled().should.eventually.not.be.ok;
   });
 
-  it('browser.sleep', function() {
+  it('browser.sleep', function () {
     return browser
       .sleep(100).should.be.fulfilled
       .sleep(100).should.be.fulfilled;
   });
 
-  it('browser.noop', function() {
+  it('browser.noop', function () {
     return browser
       .noop().should.be.fulfilled
       .sleep(100).should.be.fulfilled
       .noop().should.be.fulfilled;
   });
 
-  it('browser.chain (promise chain)', function() {
+  it('browser.chain (promise chain)', function () {
     return browser
       .chain().should.be.fulfilled
       .chain().sleep(0).should.be.fulfilled;
   });
 
-  it('browser.resolve', function() {
-    var deferred = Q.defer();
-    setTimeout(function() {
+  it('browser.resolve', function () {
+    let deferred = Q.defer();
+    setTimeout(function () {
       deferred.resolve('123');
     }, 250);
     return browser
@@ -300,11 +300,11 @@ describe('api-various ' + env.ENV_DESC, function() {
         .should.become('123');
   });
 
-  it('browser.getSessionId', function() {
+  it('browser.getSessionId', function () {
     return browser.getSessionId(100).should.eventually.have.length.above(0);
   });
 
-  it('browser.setHttpTimeout', function() {
+  it('browser.setHttpTimeout', function () {
     return browser
       .setHttpTimeout(env.HTTP_TIMEOUT || 60000).should.be.fulfilled
          .setHTTPInactivityTimeout(env.HTTP_TIMEOUT || 60000).should.be.fulfilled
@@ -312,13 +312,13 @@ describe('api-various ' + env.ENV_DESC, function() {
   });
 
   // get item from array, starting at 0
-  partials['at'] =
+  partials.at =
     '<div id="theDiv">\n' +
     '<div class=\'inside\'>first</div>\n' +
     '<div class=\'inside\'>second</div>\n' +
     '<div class=\'inside\'>third</div>\n' +
     '</div>';
-  it('at', function() {
+  it('at', function () {
     return browser
       .elementsByCss('.inside').at(0).text()
         .should.become('first')
@@ -329,13 +329,13 @@ describe('api-various ' + env.ENV_DESC, function() {
   });
 
   // get item from array, starting at 0
-  partials['nth'] =
+  partials.nth =
     '<div id="theDiv">\n' +
     '<div class=\'inside\'>first</div>\n' +
     '<div class=\'inside\'>second</div>\n' +
     '<div class=\'inside\'>third</div>\n' +
     '</div>';
-  it('nth', function() {
+  it('nth', function () {
     return browser
       .elementsByCss('.inside').nth(1).text()
         .should.become('first')
@@ -352,7 +352,7 @@ describe('api-various ' + env.ENV_DESC, function() {
     '<div class=\'inside\'>second</div>\n' +
     '<div class=\'inside\'>third</div>\n' +
     '</div>';
-  it('first/second/third/last', function() {
+  it('first/second/third/last', function () {
     return browser
       .elementsByCss('.inside').first().text()
         .should.become('first')
@@ -365,26 +365,26 @@ describe('api-various ' + env.ENV_DESC, function() {
   });
 
   // print
-  partials['print'] =
+  partials.print =
     '<div id="theDiv">Some text.</div>\n';
-  it('print', function() {
+  it('print', function () {
     return browser
       .elementById('theDiv').text().print()
       .elementById('theDiv').text().print("prepend: ");
   });
 
   // print error
-  it('printError', function() {
+  it('printError', function () {
     return browser
       .elementById('unknown').printError().
         should.be.rejected;
   });
 
-  it('err.inspect', function() {
+  it('err.inspect', function () {
     return browser
       .safeExecute("invalid-code> here").then(
-        function() { assert(false); },
-        function(err) {
+        function () { assert(false); },
+        function (err) {
           should.exist(err);
           (err instanceof Error).should.be.true;
           (err.inspect().length <= 510).should.be.true;

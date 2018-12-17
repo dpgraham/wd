@@ -7,49 +7,49 @@ require('../helpers/setup');
 
 exports.test = function function_name (
   suffix, extraDesc, suffixPartials, criterias, _skip) {
-    describe('api-el-' + extraDesc + ' ' + env.ENV_DESC, _skip, function() {
-      var partials = {};
+  describe('api-el-' + extraDesc + ' ' + env.ENV_DESC, _skip, function () {
+    let partials = {};
 
-      var browser;
-      require('./midway-base')(this, partials).then(function(_browser) { browser = _browser; });
+    let browser;
+    require('./midway-base')(this, partials).then(function (_browser) { browser = _browser; });
 
-      var elementFuncName = 'element' + suffix;
-      partials['browser.' + elementFuncName]  = suffixPartials.one;
-      it('browser.' + elementFuncName, function() {
-        return Q.all([
-          browser[elementFuncName](criterias.valid).should.eventually.exist,
-          browser[elementFuncName](criterias.invalid).should.be.rejectedWith(/status: 7/)
-        ]);
-      });
+    let elementFuncName = 'element' + suffix;
+    partials['browser.' + elementFuncName] = suffixPartials.one;
+    it('browser.' + elementFuncName, function () {
+      return Q.all([
+        browser[elementFuncName](criterias.valid).should.eventually.exist,
+        browser[elementFuncName](criterias.invalid).should.be.rejectedWith(/status: 7/)
+      ]);
+    });
 
-      var elementFuncNameOrNull = 'element' + suffix + 'OrNull';
-      partials['browser.' + elementFuncNameOrNull]  = suffixPartials.one;
-      it('browser.' + elementFuncNameOrNull, function() {
-        return browser
+    let elementFuncNameOrNull = 'element' + suffix + 'OrNull';
+    partials['browser.' + elementFuncNameOrNull] = suffixPartials.one;
+    it('browser.' + elementFuncNameOrNull, function () {
+      return browser
           [elementFuncNameOrNull](criterias.valid).should.eventually.exist
           [elementFuncNameOrNull](criterias.invalid).should.eventually.be.a('null');
-      });
+    });
 
-      var elementFuncNameIfExists = 'element' + suffix + 'IfExists';
-      partials['browser.' + elementFuncNameIfExists]  = suffixPartials.one;
-      it('browser.' + elementFuncNameIfExists, function() {
-        return browser
+    let elementFuncNameIfExists = 'element' + suffix + 'IfExists';
+    partials['browser.' + elementFuncNameIfExists] = suffixPartials.one;
+    it('browser.' + elementFuncNameIfExists, function () {
+      return browser
           [elementFuncNameIfExists](criterias.valid).should.eventually.exist
           [elementFuncNameIfExists](criterias.invalid).should.eventually.be.a('undefined');
-      });
+    });
 
-      var hasElementFuncName = 'hasElement' + suffix;
-      partials['browser.' + hasElementFuncName]  = suffixPartials.one;
-      it('browser.' + hasElementFuncName, function() {
-        return browser
+    let hasElementFuncName = 'hasElement' + suffix;
+    partials['browser.' + hasElementFuncName] = suffixPartials.one;
+    it('browser.' + hasElementFuncName, function () {
+      return browser
           [hasElementFuncName](criterias.valid).should.eventually.be.ok
           [hasElementFuncName](criterias.invalid).should.eventually.not.be.ok;
-      });
+    });
 
-      var waitForElementFuncName = 'waitForElement' + suffix;
-      partials['browser.' + waitForElementFuncName]  = '<div id="theDiv"></div>';
-      it('browser.' + waitForElementFuncName, function() {
-        return browser
+    let waitForElementFuncName = 'waitForElement' + suffix;
+    partials['browser.' + waitForElementFuncName] = '<div id="theDiv"></div>';
+    it('browser.' + waitForElementFuncName, function () {
+      return browser
           .executeAsync(
             'var args = Array.prototype.slice.call( arguments, 0 );\n' +
             'var done = args[args.length -1];\n' +
@@ -60,17 +60,17 @@ exports.test = function function_name (
             [suffixPartials.child, env.BASE_TIME_UNIT]
           )[waitForElementFuncName](criterias.child, 2 * env.BASE_TIME_UNIT, env.BASE_TIME_UNIT)
           .should.be.fulfilled
-          .then(function() {
+          .then(function () {
             return browser
               [waitForElementFuncName]("__wrongsel", 0.1 * env.BASE_TIME_UNIT)
                 .should.be.rejectedWith('Element condition wasn\'t satisfied!');
           });
-      });
+    });
 
-      var waitForVisibleFuncName = 'waitForVisible' + suffix;
-      partials['browser.' + waitForVisibleFuncName]  = '<div id="theDiv"></div>';
-      it('browser.' + waitForVisibleFuncName, function() {
-        return browser
+    let waitForVisibleFuncName = 'waitForVisible' + suffix;
+    partials['browser.' + waitForVisibleFuncName] = '<div id="theDiv"></div>';
+    it('browser.' + waitForVisibleFuncName, function () {
+      return browser
           .executeAsync(
             'var args = Array.prototype.slice.call( arguments, 0 );\n' +
             'var done = args[args.length -1];\n' +
@@ -85,18 +85,18 @@ exports.test = function function_name (
           [elementFuncName](criterias.child).should.eventually.exist
           [waitForVisibleFuncName](criterias.child, 2 * env.BASE_TIME_UNIT)
           .should.be.fulfilled
-          .then(function() {
+          .then(function () {
             return browser
               [waitForVisibleFuncName]("__wrongsel", 0.1 * env.BASE_TIME_UNIT)
                 .should.be.rejectedWith(/Element didn\'t become visible/);
           });
-      });
+    });
 
-      var elementsFuncName = 'elements' + suffix;
-      partials['browser.' + elementsFuncName]  = suffixPartials.several;
-      it('browser.' + elementsFuncName, function() {
-        return browser
-          [elementsFuncName](criterias.valid).then(function(res) {
+    let elementsFuncName = 'elements' + suffix;
+    partials['browser.' + elementsFuncName] = suffixPartials.several;
+    it('browser.' + elementsFuncName, function () {
+      return browser
+          [elementsFuncName](criterias.valid).then(function (res) {
             if (elementsFuncName.match(/ById/)) {
               res.should.have.length(1);
             } else if (elementsFuncName.match(/ByTagName/)) {
@@ -107,8 +107,8 @@ exports.test = function function_name (
           })
           [elementsFuncName](criterias.invalid)
             .should.eventually.deep.equal([]);
-      });
-
     });
+
+  });
 };
 

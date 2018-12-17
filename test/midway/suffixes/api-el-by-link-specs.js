@@ -1,7 +1,7 @@
-var partials = {
+let partials = {
   one: '<div id="theDiv"><a>the link</a></div>\n',
   child: '<div class="theChild"><a>the child link</a></div>',
-  several: 
+  several:
     '<div id="theDiv">\n' +
     '  <div><a>the link</a></div>\n' +
     '  <div><a>the link</a></div>\n' +
@@ -9,10 +9,10 @@ var partials = {
    '</div>\n'
 };
 
-var criterias = {
+let criterias = {
   valid: 'the link',
   invalid: 'the wrong link',
   child: 'the child link'
 };
 
-require('../api-el-suffix-base').test('ByLinkText','by-link', partials, criterias);
+require('../api-el-suffix-base').test('ByLinkText', 'by-link', partials, criterias);

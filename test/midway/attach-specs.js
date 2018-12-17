@@ -1,16 +1,16 @@
 require('../helpers/setup');
 
-describe('attach ' + env.ENV_DESC, function() {
-  var partials = {};
+describe('attach ' + env.ENV_DESC, function () {
+  let partials = {};
 
-  var browser;
-  require('./midway-base')(this, partials).then(function(_browser) { browser = _browser; });
+  let browser;
+  require('./midway-base')(this, partials).then(function (_browser) { browser = _browser; });
 
-  it('attach', function() {
+  it('attach', function () {
     return browser
       .getSessionId()
-      .then(function(sessionId) {
-        var browser2 = wd.promiseChainRemote(env.REMOTE_CONFIG);
+      .then(function (sessionId) {
+        let browser2 = wd.promiseChainRemote(env.REMOTE_CONFIG);
         return browser2
           .attach(sessionId)
           .title().should.eventually.include('WD Tests')
@@ -18,11 +18,11 @@ describe('attach ' + env.ENV_DESC, function() {
       });
   });
 
-  it('detach', function() {
+  it('detach', function () {
     return browser
       .getSessionId()
-      .then(function(sessionId) {
-        var browser2 = wd.promiseChainRemote(env.REMOTE_CONFIG);
+      .then(function (sessionId) {
+        let browser2 = wd.promiseChainRemote(env.REMOTE_CONFIG);
         return browser2
           .attach(sessionId)
           .getSessionId().should.become(sessionId)

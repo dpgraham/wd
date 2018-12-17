@@ -1,7 +1,7 @@
-var partials = {
+let partials = {
   one: '<div id="theDiv"><div class="theClass">Hello World!</div></div>\n',
   child: '<div class="theChild">a child</div>',
-  several: 
+  several:
     '<div id="theDiv">\n' +
     '  <div class="theClass">Hello World!</div>\n' +
     '  <div class="theClass">Hello World!</div>\n' +
@@ -9,10 +9,10 @@ var partials = {
     '</div>\n'
 };
 
-var criterias = {
+let criterias = {
   valid: 'theClass',
   invalid: 'theWrongClass',
   child: 'theChild'
 };
 
-require('../api-el-suffix-base').test('ByClassName','by-class', partials, criterias);
+require('../api-el-suffix-base').test('ByClassName', 'by-class', partials, criterias);

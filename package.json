@@ -84,8 +84,9 @@
     "yargs": "6.0.0"
   },
   "scripts": {
-    "test": "gulp test-unit",
+    "test": "mocha test/specs",
     "all_tests": "gulp test",
-    "install": "node scripts/build-browser-scripts"
+    "install": "node scripts/build-browser-scripts",
+    "lint": "eslint lib/ test/"
   }
 }

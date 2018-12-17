@@ -1,25 +1,25 @@
-var nock = require('nock'),
+let nock = require('nock'),
     async = require('async');
 require('../helpers/setup');
 
-describe("mjson tests", function() {
+describe("mjson tests", function () {
 
-  var server;
+  let server;
 
-  before(function() {
+  before(function () {
     server = nock('http://localhost:5555');
   });
 
-  describe("promise api", function() {
-    var browser;
+  describe("promise api", function () {
+    let browser;
 
-    before(function(done) {
+    before(function (done) {
       server.post('/session').reply(303, "OK", {
         'Location': '/session/1234'
       }).get('/session/1234').reply(200, {
-          status: 0,
-          sessionId: '1234',
-          value: {}
+        status: 0,
+        sessionId: '1234',
+        value: {}
       });
 
       browser = wd.promiseChainRemote('http://localhost:5555/');
@@ -28,12 +28,12 @@ describe("mjson tests", function() {
         .nodeify(done);
     });
 
-    describe("by ios uiautomation", function() {
+    describe("by ios uiautomation", function () {
 
-      it("element methods should work", function(done) {
+      it("element methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/element', {"using":"-ios uiautomation","value":"random stuff"})
+          .post('/session/1234/element', {"using": "-ios uiautomation", "value": "random stuff"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -41,7 +41,7 @@ describe("mjson tests", function() {
             value: {ELEMENT: '0'},
           });
         server
-          .post('/session/1234/elements', {"using":"-ios uiautomation","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "-ios uiautomation", "value": "random stuff"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -62,10 +62,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("elements methods should work", function(done) {
+      it("elements methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"-ios uiautomation","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "-ios uiautomation", "value": "random stuff"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -80,10 +80,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("wait methods should work", function(done) {
+      it("wait methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"-ios uiautomation","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "-ios uiautomation", "value": "random stuff"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -103,12 +103,12 @@ describe("mjson tests", function() {
     });
 
 
-    describe("by ios class chain", function() {
+    describe("by ios class chain", function () {
 
-      it("element methods should work", function(done) {
+      it("element methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/element', {"using":"-ios class chain","value":"random stuff"})
+          .post('/session/1234/element', {"using": "-ios class chain", "value": "random stuff"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -116,7 +116,7 @@ describe("mjson tests", function() {
             value: {ELEMENT: '0'},
           });
         server
-          .post('/session/1234/elements', {"using":"-ios class chain","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "-ios class chain", "value": "random stuff"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -137,10 +137,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("elements methods should work", function(done) {
+      it("elements methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"-ios class chain","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "-ios class chain", "value": "random stuff"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -155,10 +155,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("wait methods should work", function(done) {
+      it("wait methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"-ios class chain","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "-ios class chain", "value": "random stuff"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -177,12 +177,12 @@ describe("mjson tests", function() {
 
     });
 
-    describe("by android uiautomator", function() {
+    describe("by android uiautomator", function () {
 
-      it("element methods should work", function(done) {
+      it("element methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/element', {"using":"-android uiautomator","value":"random stuff"})
+          .post('/session/1234/element', {"using": "-android uiautomator", "value": "random stuff"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -190,7 +190,7 @@ describe("mjson tests", function() {
             value: {ELEMENT: '0'},
           });
         server
-          .post('/session/1234/elements', {"using":"-android uiautomator","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "-android uiautomator", "value": "random stuff"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -211,10 +211,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("elements methods should work", function(done) {
+      it("elements methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"-android uiautomator","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "-android uiautomator", "value": "random stuff"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -229,10 +229,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("wait methods should work", function(done) {
+      it("wait methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"-android uiautomator","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "-android uiautomator", "value": "random stuff"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -251,12 +251,12 @@ describe("mjson tests", function() {
 
     });
 
-    describe("by accessibility id", function() {
+    describe("by accessibility id", function () {
 
-      it("element methods should work", function(done) {
+      it("element methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/element', {"using":"accessibility id","value":"random stuff"})
+          .post('/session/1234/element', {"using": "accessibility id", "value": "random stuff"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -264,7 +264,7 @@ describe("mjson tests", function() {
             value: {ELEMENT: '0'},
           });
         server
-          .post('/session/1234/elements', {"using":"accessibility id","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "accessibility id", "value": "random stuff"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -285,10 +285,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("elements methods should work", function(done) {
+      it("elements methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"accessibility id","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "accessibility id", "value": "random stuff"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -303,10 +303,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("wait methods should work", function(done) {
+      it("wait methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"accessibility id","value":"random stuff"})
+          .post('/session/1234/elements', {"using": "accessibility id", "value": "random stuff"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -325,12 +325,12 @@ describe("mjson tests", function() {
 
     });
 
-    describe("by image", function() {
+    describe("by image", function () {
 
-      it("element methods should work", function(done) {
+      it("element methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/element', {"using":"-image","value":"iVBOR"})
+          .post('/session/1234/element', {"using": "-image", "value": "iVBOR"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -338,7 +338,7 @@ describe("mjson tests", function() {
             value: {ELEMENT: 'appium-image-element-0'},
           });
         server
-          .post('/session/1234/elements', {"using":"-image","value":"iVBOR"})
+          .post('/session/1234/elements', {"using": "-image", "value": "iVBOR"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -359,10 +359,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("elements methods should work", function(done) {
+      it("elements methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"-image","value":"iVBOR"})
+          .post('/session/1234/elements', {"using": "-image", "value": "iVBOR"})
           .times(2)
           .reply(200, {
             status: 0,
@@ -377,10 +377,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("wait methods should work", function(done) {
+      it("wait methods should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/elements', {"using":"-image","value":"iVBOR"})
+          .post('/session/1234/elements', {"using": "-image", "value": "iVBOR"})
           .times(3)
           .reply(200, {
             status: 0,
@@ -399,22 +399,22 @@ describe("mjson tests", function() {
 
     });
 
-    describe("actions", function() {
+    describe("actions", function () {
 
-      it("touch actions should work", function(done) {
+      it("touch actions should work", function (done) {
         browser.chain()
-        .then(function() {
+        .then(function () {
           nock.cleanAll();
           server
-            .post('/session/1234/element', {"using":"id","value":"random"})
+            .post('/session/1234/element', {"using": "id", "value": "random"})
             .reply(200, {
               status: 0,
               sessionId: '1234',
               value: {ELEMENT: '0'},
             })
             .post('/session/1234/touch/perform', {"actions": [
-              {"action":"press","options":{x: 100, y: 5}},
-              {"action":"release","options":{}}
+              {"action": "press", "options": {x: 100, y: 5}},
+              {"action": "release", "options": {}}
             ]})
             .times(2)
             .reply(200, {
@@ -423,42 +423,42 @@ describe("mjson tests", function() {
               // TODO check what the return is like
               value: [{'not sure': '0'}],
             });
-          var el;
+          let el;
           return browser
-            .elementById('random').then(function(_el) { el=_el; })
-            .then(function() {
-              var action = new wd.TouchAction();
+            .elementById('random').then(function (_el) { el = _el; })
+            .then(function () {
+              let action = new wd.TouchAction();
               action.press({x: 100, y: 5}).release();
               return browser
                 .performTouchAction(action);
-            }).then(function() {
-              var action = new wd.TouchAction(browser);
+            }).then(function () {
+              let action = new wd.TouchAction(browser);
               action.press({x: 100, y: 5}).release();
               return action.perform();
             });
         }).nodeify(done);
       });
 
-      it("multi actions should work", function(done) {
+      it("multi actions should work", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/element', {"using":"id","value":"random"})
+          .post('/session/1234/element', {"using": "id", "value": "random"})
           .reply(200, {
             status: 0,
             sessionId: '1234',
             value: {ELEMENT: '0'},
           });
-        var el;
+        let el;
         browser
-          .elementById('random').then(function(_el) { el = _el; })
-          .then(function() {
+          .elementById('random').then(function (_el) { el = _el; })
+          .then(function () {
             nock.cleanAll();
             server
               .post('/session/1234/touch/multi/perform', {
-                "elementId":"0",
-                "actions":[
-                  [{"action":"tap","options":{"x": 100,"y":200}}],
-                  [{"action":"tap","options":{"x":50,"y":25}}]
+                "elementId": "0",
+                "actions": [
+                  [{"action": "tap", "options": {"x": 100, "y": 200}}],
+                  [{"action": "tap", "options": {"x": 50, "y": 25}}]
                 ]})
               .times(4)
               .reply(200, {
@@ -468,37 +468,37 @@ describe("mjson tests", function() {
                 value: [{'not sure': '0'}],
               });
           })
-          .then(function() {
-            var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-            var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-            var ma = new wd.MultiAction().add(a1, a2);
+          .then(function () {
+            let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+            let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+            let ma = new wd.MultiAction().add(a1, a2);
             return browser.performMultiAction(el, ma);
           })
-          .then(function() {
-            var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-            var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-            var ma = new wd.MultiAction().add(a1, a2);
+          .then(function () {
+            let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+            let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+            let ma = new wd.MultiAction().add(a1, a2);
             return browser.performMultiAction(el, ma);
           })
-          .then(function() {
-            var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-            var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-            var ma = new wd.MultiAction().add(a1, a2);
+          .then(function () {
+            let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+            let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+            let ma = new wd.MultiAction().add(a1, a2);
             return el.performMultiAction(ma);
           })
-          .then(function() {
-            var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-            var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-            var ma = new wd.MultiAction(el).add(a1, a2);
+          .then(function () {
+            let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+            let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+            let ma = new wd.MultiAction(el).add(a1, a2);
             return ma.perform();
           })
-          .then(function() {
+          .then(function () {
             nock.cleanAll();
             server
               .post('/session/1234/touch/multi/perform', {
-                "actions":[
-                  [{"action":"tap","options":{"x": 100,"y":200}}],
-                  [{"action":"tap","options":{"x":50,"y":25}}]
+                "actions": [
+                  [{"action": "tap", "options": {"x": 100, "y": 200}}],
+                  [{"action": "tap", "options": {"x": 50, "y": 25}}]
                 ]})
               .times(2)
               .reply(200, {
@@ -508,16 +508,16 @@ describe("mjson tests", function() {
                 value: [{'not sure': '0'}],
               });
           })
-          .then(function() {
-            var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-            var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-            var ma = new wd.MultiAction().add(a1, a2);
+          .then(function () {
+            let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+            let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+            let ma = new wd.MultiAction().add(a1, a2);
             return browser.performMultiAction(ma);
           })
-          .then(function() {
-            var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-            var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-            var ma = new wd.MultiAction(browser).add(a1, a2);
+          .then(function () {
+            let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+            let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+            let ma = new wd.MultiAction(browser).add(a1, a2);
             return ma.perform();
           })
           .nodeify(done);
@@ -547,55 +547,55 @@ describe("mjson tests", function() {
               }, {
                 type: "pointerMove",
                 duration: 1000,
-                  origin: "pointer",
-                  x: -50,
-                  y: 100
+                origin: "pointer",
+                x: -50,
+                y: 100
               }, {
-                  type: "pointerUp",
-                  button: 0
+                type: "pointerUp",
+                button: 0
               }]
             }, {
               type: "pointer",
               id: "finger2",
               parameters: {
-                  "pointerType": "touch"
+                "pointerType": "touch"
               },
               actions: [{
-                  type: "pointerMove",
-                  "duration": 0,
-                  "x": 200,
-                  "y": 200
+                type: "pointerMove",
+                "duration": 0,
+                "x": 200,
+                "y": 200
               }, {
-                  type: "pointerDown",
-                  button: 0
+                type: "pointerDown",
+                button: 0
               }, {
-                  type: "pause",
-                  "duration": 300
+                type: "pause",
+                "duration": 300
               }, {
-                  type: "pointerMove",
-                  "duration": 1000,
-                  "origin": "pointer",
-                  "x": 50,
-                  "y": 100
+                type: "pointerMove",
+                "duration": 1000,
+                "origin": "pointer",
+                "x": 50,
+                "y": 100
               }, {
-                  type: "pointerUp",
-                  button: 0
+                type: "pointerUp",
+                button: 0
               }]
             }]
-        })
+          })
           .reply(200, {
             status: 0,
             sessionId: '1234',
             value: null,
           });
-        var actions = new wd.W3CActions(browser);
-        var touchInput = actions.addTouchInput();
+        let actions = new wd.W3CActions(browser);
+        let touchInput = actions.addTouchInput();
         touchInput.pointerMove({duration: 0, x: 100, y: 100});
         touchInput.pointerDown({button: 0});
         touchInput.pause({duration: 500});
         touchInput.pointerMove({duration: 1000, origin: 'pointer', x: -50, y: 100});
         touchInput.pointerUp({button: 0});
-        var secondTouchInput = actions.addTouchInput();
+        let secondTouchInput = actions.addTouchInput();
         secondTouchInput.pointerMove({duration: 0, x: 200, y: 200});
         secondTouchInput.pointerDown({button: 0});
         secondTouchInput.pause({duration: 300});
@@ -616,7 +616,7 @@ describe("mjson tests", function() {
             sessionId: '1234',
             value: null,
           });
-        
+
         browser.releaseW3CActions()
           .then(function (value) {
             should.equal(value, null);
@@ -624,9 +624,9 @@ describe("mjson tests", function() {
       });
     });
 
-    describe("device methods", function() {
+    describe("device methods", function () {
 
-      it("shakeDevice", function(done) {
+      it("shakeDevice", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/shake', {})
@@ -641,7 +641,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("touchId", function(done){
+      it("touchId", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/simulator/touch_id', {match: true})
@@ -655,7 +655,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("toggleTouchIdEnrollment", function(done){
+      it("toggleTouchIdEnrollment", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/simulator/toggle_touch_id_enrollment')
@@ -669,7 +669,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("lockDevice", function(done) {
+      it("lockDevice", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/lock', {seconds: 3})
@@ -684,8 +684,8 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      describe("deviceKeyEvent", function() {
-        it("keycode only", function(done) {
+      describe("deviceKeyEvent", function () {
+        it("keycode only", function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/appium/device/keyevent', {keycode: 3})
@@ -697,7 +697,7 @@ describe("mjson tests", function() {
             .deviceKeyEvent(3)
             .nodeify(done);
         });
-        it("keycode only + metastate", function(done) {
+        it("keycode only + metastate", function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/appium/device/keyevent', {keycode: 3, metastate: "abcd"})
@@ -709,7 +709,7 @@ describe("mjson tests", function() {
             .deviceKeyEvent(3, "abcd")
             .nodeify(done);
         });
-        it("pressDeviceKey", function(done) {
+        it("pressDeviceKey", function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/appium/device/keyevent', {keycode: 3})
@@ -723,8 +723,8 @@ describe("mjson tests", function() {
         });
       });
 
-      describe("pressKeycode", function() {
-        it("keycode only", function(done) {
+      describe("pressKeycode", function () {
+        it("keycode only", function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/appium/device/press_keycode', {keycode: 3})
@@ -736,7 +736,7 @@ describe("mjson tests", function() {
             .pressKeycode(3)
             .nodeify(done);
         });
-        it("keycode + metastate", function(done) {
+        it("keycode + metastate", function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/appium/device/press_keycode', {keycode: 3, metastate: "abcd"})
@@ -750,8 +750,8 @@ describe("mjson tests", function() {
         });
       });
 
-      describe("longPressKeycode", function() {
-        it("keycode only", function(done) {
+      describe("longPressKeycode", function () {
+        it("keycode only", function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/appium/device/long_press_keycode', {keycode: 3})
@@ -764,7 +764,7 @@ describe("mjson tests", function() {
             .nodeify(done);
         });
 
-        it("keycode + metastate", function(done) {
+        it("keycode + metastate", function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/appium/device/long_press_keycode', {keycode: 3, metastate: "abcd"})
@@ -778,8 +778,8 @@ describe("mjson tests", function() {
         });
       });
 
-      describe("rotateDevice", function() {
-        it("without element", function(done) {
+      describe("rotateDevice", function () {
+        it("without element", function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/appium/device/rotate',
@@ -794,10 +794,10 @@ describe("mjson tests", function() {
             .rotate({x: 114, y: 198, duration: 5, radius: 3, rotation: 220, touchCount: 2})
             .nodeify(done);
         });
-        it("with element", function(done) {
+        it("with element", function (done) {
           nock.cleanAll();
           server
-            .post('/session/1234/element', {"using":"id","value":"random"})
+            .post('/session/1234/element', {"using": "id", "value": "random"})
             .reply(200, {
               status: 0,
               sessionId: '1234',
@@ -811,23 +811,23 @@ describe("mjson tests", function() {
               sessionId: '1234',
             });
           browser
-            .elementById('random').then(function(el) {
+            .elementById('random').then(function (el) {
               return browser
                 .rotateDevice(el, {x: 114, y: 198, duration: 5, radius: 3,
-                  rotation: 220, touchCount: 2})
+                                   rotation: 220, touchCount: 2})
                 .rotate(el, {x: 114, y: 198, duration: 5, radius: 3,
-                  rotation: 220, touchCount: 2})
-                .then(function() {
+                             rotation: 220, touchCount: 2})
+                .then(function () {
                   return el
                     .rotate({x: 114, y: 198, duration: 5, radius: 3,
-                      rotation: 220, touchCount: 2});
+                             rotation: 220, touchCount: 2});
                 });
             })
             .nodeify(done);
         });
       });
 
-      it("getCurrentDeviceActivity", function(done) {
+      it("getCurrentDeviceActivity", function (done) {
         nock.cleanAll();
         server
           .get('/session/1234/appium/device/current_activity')
@@ -845,7 +845,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("getCurrentPackage", function(done) {
+      it("getCurrentPackage", function (done) {
         nock.cleanAll();
         server
           .get('/session/1234/appium/device/current_package')
@@ -861,7 +861,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("installAppOnDevice", function(done) {
+      it("installAppOnDevice", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/install_app', {appPath: "http://appium.s3.amazonaws.com/UICatalog6.0.app.zip"})
@@ -876,7 +876,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("removeAppFromDevice", function(done) {
+      it("removeAppFromDevice", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/remove_app', {appId: "rubish"})
@@ -891,7 +891,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("isAppInstalledOnDevice", function(done) {
+      it("isAppInstalledOnDevice", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/app_installed', {bundleId: "coolApp"})
@@ -909,7 +909,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("isKeyboardShown", function(done) {
+      it("isKeyboardShown", function (done) {
         nock.cleanAll();
         server
           .get('/session/1234/appium/device/is_keyboard_shown')
@@ -924,7 +924,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("hideDeviceKeyboard, passing key", function(done) {
+      it("hideDeviceKeyboard, passing key", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/hide_keyboard', {keyName: "Done"})
@@ -948,7 +948,7 @@ describe("mjson tests", function() {
             sessionId: '1234',
           });
         server
-          .post('/session/1234/appium/device/hide_keyboard', {strategy: 'pressKey', key:'Done'})
+          .post('/session/1234/appium/device/hide_keyboard', {strategy: 'pressKey', key: 'Done'})
           .times(1)
           .reply(200, {
             status: 0,
@@ -958,14 +958,14 @@ describe("mjson tests", function() {
           .hideKeyboard()
           .hideDeviceKeyboard("Done")
           .hideDeviceKeyboard({strategy: 'tapOutside'})
-          .hideDeviceKeyboard({strategy: 'pressKey', key:'Done'})
+          .hideDeviceKeyboard({strategy: 'pressKey', key: 'Done'})
           .nodeify(done);
       });
 
-      it("pushFileToDevice", function(done) {
-        var remotePath = '/data/local/tmp/remote.txt';
-        var stringData = "random string data " + Math.random();
-        var base64Data = new Buffer(stringData).toString('base64');
+      it("pushFileToDevice", function (done) {
+        let remotePath = '/data/local/tmp/remote.txt';
+        let stringData = "random string data " + Math.random();
+        let base64Data = new Buffer(stringData).toString('base64');
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/push_file', {path: remotePath, data: base64Data})
@@ -980,10 +980,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("pullFileFromDevice", function(done) {
-        var remotePath = '/data/local/tmp/remote.txt';
-        var stringData = "random string data " + Math.random();
-        var base64Data = new Buffer(stringData).toString('base64');
+      it("pullFileFromDevice", function (done) {
+        let remotePath = '/data/local/tmp/remote.txt';
+        let stringData = "random string data " + Math.random();
+        let base64Data = new Buffer(stringData).toString('base64');
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/pull_file', {path: remotePath})
@@ -1001,10 +1001,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("pullFolderFromDevice", function(done) {
-        var remotePath = '/data/local/tmp/remote';
-        var stringData = "not a zip but that doesn't matter " + Math.random();
-        var base64Data = new Buffer(stringData).toString('base64');
+      it("pullFolderFromDevice", function (done) {
+        let remotePath = '/data/local/tmp/remote';
+        let stringData = "not a zip but that doesn't matter " + Math.random();
+        let base64Data = new Buffer(stringData).toString('base64');
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/pull_folder', {path: remotePath})
@@ -1022,7 +1022,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("toggleAirplaneModeOnDevice", function(done) {
+      it("toggleAirplaneModeOnDevice", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/toggle_airplane_mode', {})
@@ -1038,7 +1038,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("toggleWiFiOnDevice", function(done) {
+      it("toggleWiFiOnDevice", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/toggle_wifi', {})
@@ -1053,7 +1053,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("toggleLocationServicesOnDevice", function(done) {
+      it("toggleLocationServicesOnDevice", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/toggle_location_services', {})
@@ -1068,7 +1068,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("toggleDataOnDevice", function(done) {
+      it("toggleDataOnDevice", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/toggle_data', {})
@@ -1083,7 +1083,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("launchApp", function(done) {
+      it("launchApp", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/app/launch', {})
@@ -1096,7 +1096,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("closeApp", function(done) {
+      it("closeApp", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/app/close', {})
@@ -1109,7 +1109,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("resetApp", function(done) {
+      it("resetApp", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/app/reset', {})
@@ -1122,7 +1122,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("backgroundApp", function(done) {
+      it("backgroundApp", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/app/background', {seconds: 3})
@@ -1135,14 +1135,14 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("endTestCoverageForApp", function(done) {
-        var intent = "android.intent.action.BOOT_COMPLETED";
-        var path = "/random/path";
-        var stringData = "random string data " + Math.random();
-        var base64Data = new Buffer(stringData).toString('base64');
+      it("endTestCoverageForApp", function (done) {
+        let intent = "android.intent.action.BOOT_COMPLETED";
+        let path = "/random/path";
+        let stringData = "random string data " + Math.random();
+        let base64Data = new Buffer(stringData).toString('base64');
         nock.cleanAll();
         server
-          .post('/session/1234/appium/app/end_test_coverage', {intent: intent, path: path})
+          .post('/session/1234/appium/app/end_test_coverage', {intent, path})
           .times(3)
           .reply(200, {
             status: 0,
@@ -1157,9 +1157,9 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      describe("complexFindInApp", function() {
-        it("one element", function(done) {
-          var selector = "abcd";
+      describe("complexFindInApp", function () {
+        it("one element", function (done) {
+          let selector = "abcd";
           nock.cleanAll();
           server
             .post('/session/1234/appium/app/complex_find', {selector: "abcd"})
@@ -1171,16 +1171,16 @@ describe("mjson tests", function() {
             });
           browser
             .complexFindInApp(selector)
-              .then(function(el) {
+              .then(function (el) {
                 el.value.should.equal('0');
               })
             .complexFind(selector)
-              .then(function(el) {
+              .then(function (el) {
                 el.value.should.equal('0');
               }).nodeify(done);
         });
-        it("element array", function(done) {
-          var selector = "all";
+        it("element array", function (done) {
+          let selector = "all";
           nock.cleanAll();
           server
             .post('/session/1234/appium/app/complex_find', {selector: "all"})
@@ -1192,17 +1192,17 @@ describe("mjson tests", function() {
             });
           browser
             .complexFindInApp(selector)
-              .then(function(els) {
+              .then(function (els) {
                 els[0].value.should.equal('0');
               })
             .complexFind(selector)
-              .then(function(els) {
+              .then(function (els) {
                 els[0].value.should.equal('0');
               }).nodeify(done);
         });
       });
 
-      it("getAppStrings", function(done) {
+      it("getAppStrings", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/app/strings', {language: 'en'})
@@ -1216,10 +1216,10 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("setImmediateValueInApp", function(done) {
+      it("setImmediateValueInApp", function (done) {
         nock.cleanAll();
         server
-          .post('/session/1234/element', {"using":"id","value":"random"})
+          .post('/session/1234/element', {"using": "id", "value": "random"})
           .reply(200, {
             status: 0,
             sessionId: '1234',
@@ -1233,11 +1233,11 @@ describe("mjson tests", function() {
           });
         browser
           .elementById("random")
-          .then(function(el) {
+          .then(function (el) {
             return browser
               .setImmediateValueInApp(el, "12345")
               .setImmediateValue(el, "12345")
-              .then(function() {
+              .then(function () {
                 return el
                   .setImmediateValueInApp("12345")
                   .setImmediateValue("12345");
@@ -1246,7 +1246,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("setNetworkConnection", function(done) {
+      it("setNetworkConnection", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/network_connection', {parameters: {type: 5}})
@@ -1261,7 +1261,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("getNetworkConnection", function(done) {
+      it("getNetworkConnection", function (done) {
         nock.cleanAll();
         server
           .get('/session/1234/network_connection')
@@ -1276,7 +1276,7 @@ describe("mjson tests", function() {
           .nodeify(done);
       });
 
-      it("openNotifications", function(done) {
+      it("openNotifications", function (done) {
         nock.cleanAll();
         server
           .post('/session/1234/appium/device/open_notifications')
@@ -1387,7 +1387,7 @@ describe("mjson tests", function() {
 
       it("setClipboard", function (done) {
         nock.cleanAll();
-        var base64Data = new Buffer.from('Hello').toString('base64');
+        let base64Data = new Buffer.from('Hello').toString('base64');
         server
           .post(
             '/session/1234/appium/device/set_clipboard',
@@ -1404,12 +1404,12 @@ describe("mjson tests", function() {
 
       it("getSupportedPerformanceDataTypes", function (done) {
         nock.cleanAll();
-        var supportedTypes = [
+        let supportedTypes = [
           'cpuinfo',
           'memoryinfo',
           'batteryinfo',
           'networkinfo'
-        ]
+        ];
         server
           .post('/session/1234/appium/performanceData/types')
           .reply(200, {
@@ -1468,30 +1468,30 @@ describe("mjson tests", function() {
     });
   });
 
-  describe("async callback api", function() {
-    var browser;
-    before(function(done) {
+  describe("async callback api", function () {
+    let browser;
+    before(function (done) {
       server.post('/session').reply(303, "OK", {
         'Location': '/session/1234'
       }).get('/session/1234').reply(200, {
-          status: 0,
-          sessionId: '1234',
-          value: {}
+        status: 0,
+        sessionId: '1234',
+        value: {}
       });
       browser = wd.remote('http://localhost:5555/');
       browser.init(done);
     });
 
-    it("touch actions should work", function(done) {
+    it("touch actions should work", function (done) {
       nock.cleanAll();
       server
-        .post('/session/1234/element', {"using":"id","value":"random"})
+        .post('/session/1234/element', {"using": "id", "value": "random"})
         .reply(200, {
           status: 0,
           sessionId: '1234',
           value: {ELEMENT: '0'},
         })
-        .post('/session/1234/touch/perform', {"actions": [{"action":"tap","options":{}}]})
+        .post('/session/1234/touch/perform', {"actions": [{"action": "tap", "options": {}}]})
         .times(2)
         .reply(200, {
           status: 0,
@@ -1499,26 +1499,26 @@ describe("mjson tests", function() {
           // TODO check what the return is like
           value: [{'not sure': '0'}],
         });
-      var el;
+      let el;
       async.series([
-        function(done) {
-          browser.elementById('random', function(err, _el) {
+        function (done) {
+          browser.elementById('random', function (err, _el) {
             should.not.exist(err);
             el = _el;
             done();
           });
         },
-        function(done) {
-          var action = new wd.TouchAction().tap();
-          browser.performTouchAction(action, function(err, res) {
+        function (done) {
+          let action = new wd.TouchAction().tap();
+          browser.performTouchAction(action, function (err, res) {
             should.not.exist(err);
             res.should.exist;
             done();
           });
         },
-        function(done) {
-          var action = new wd.TouchAction(browser).tap();
-          action.perform(function(err, res) {
+        function (done) {
+          let action = new wd.TouchAction(browser).tap();
+          action.perform(function (err, res) {
             should.not.exist(err);
             res.should.exist;
             done();
@@ -1527,31 +1527,31 @@ describe("mjson tests", function() {
       ], done);
     });
 
-    it("multi actions should work", function(done) {
-        server
-          .post('/session/1234/element', {"using":"id","value":"random"})
+    it("multi actions should work", function (done) {
+      server
+          .post('/session/1234/element', {"using": "id", "value": "random"})
           .reply(200, {
             status: 0,
             sessionId: '1234',
             value: {ELEMENT: '0'},
           });
-      var el;
+      let el;
       async.series([
-        function(done) {
-          browser.elementById('random', function(err, _el) {
+        function (done) {
+          browser.elementById('random', function (err, _el) {
             should.not.exist(err);
             el = _el;
             done();
           });
         },
-        function(done) {
+        function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/touch/multi/perform', {
-              "elementId":"0",
-              "actions":[
-                [{"action":"tap","options":{x: 100, y: 200}}],
-                [{"action":"tap","options":{x: 50, y: 25}}]
+              "elementId": "0",
+              "actions": [
+                [{"action": "tap", "options": {x: 100, y: 200}}],
+                [{"action": "tap", "options": {x: 50, y: 25}}]
               ]})
             .times(3)
             .reply(200, {
@@ -1562,43 +1562,43 @@ describe("mjson tests", function() {
             });
           done();
         },
-        function(done) {
-          var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-          var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-          var ma = new wd.MultiAction().add(a1, a2);
-          browser.performMultiAction(el, ma, function(err, res) {
+        function (done) {
+          let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+          let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+          let ma = new wd.MultiAction().add(a1, a2);
+          browser.performMultiAction(el, ma, function (err, res) {
             should.not.exist(err);
             res.should.exist;
             done();
           });
         },
-        function(done) {
-          var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-          var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-          var ma = new wd.MultiAction().add(a1, a2);
-          el.performMultiAction(ma, function(err, res) {
+        function (done) {
+          let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+          let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+          let ma = new wd.MultiAction().add(a1, a2);
+          el.performMultiAction(ma, function (err, res) {
             should.not.exist(err);
             res.should.exist;
             done();
           });
         },
-        function(done) {
-          var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-          var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-          var ma = new wd.MultiAction(el).add(a1, a2);
-          ma.perform(function(err, res) {
+        function (done) {
+          let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+          let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+          let ma = new wd.MultiAction(el).add(a1, a2);
+          ma.perform(function (err, res) {
             should.not.exist(err);
             res.should.exist;
             done();
           });
         },
-        function(done) {
+        function (done) {
           nock.cleanAll();
           server
             .post('/session/1234/touch/multi/perform', {
-              "actions":[
-                [{"action":"tap","options":{x: 100, y: 200}}],
-                [{"action":"tap","options":{x: 50, y: 25}}]
+              "actions": [
+                [{"action": "tap", "options": {x: 100, y: 200}}],
+                [{"action": "tap", "options": {x: 50, y: 25}}]
               ]})
             .times(2)
             .reply(200, {
@@ -1609,21 +1609,21 @@ describe("mjson tests", function() {
             });
           done();
         },
-        function(done) {
-          var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-          var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-          var ma = new wd.MultiAction().add(a1, a2);
-          browser.performMultiAction(ma, function(err, res) {
+        function (done) {
+          let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+          let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+          let ma = new wd.MultiAction().add(a1, a2);
+          browser.performMultiAction(ma, function (err, res) {
             should.not.exist(err);
             res.should.exist;
             done();
           });
         },
-        function(done) {
-          var a1 = new wd.TouchAction().tap({x: 100, y: 200});
-          var a2 = new wd.TouchAction().tap({x: 50, y: 25});
-          var ma = new wd.MultiAction(browser).add(a1, a2);
-          ma.perform(function(err, res) {
+        function (done) {
+          let a1 = new wd.TouchAction().tap({x: 100, y: 200});
+          let a2 = new wd.TouchAction().tap({x: 50, y: 25});
+          let ma = new wd.MultiAction(browser).add(a1, a2);
+          ma.perform(function (err, res) {
             should.not.exist(err);
             res.should.exist;
             done();

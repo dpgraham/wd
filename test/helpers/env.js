@@ -1,10 +1,10 @@
-var _ = require('lodash');
-var underscoreString = require('underscore.string');
-var toNumber = underscoreString.toNumber;
-var toBoolean = underscoreString.toBoolean;
+let _ = require('lodash');
+let underscoreString = require('underscore.string');
+let toNumber = underscoreString.toNumber;
+let toBoolean = underscoreString.toBoolean;
 
 /*global env:true */
-var env = global.env = {};
+let env = global.env = {};
 
 env.VERBOSE = toBoolean(process.env.VERBOSE);
 env.BASE_TIME_UNIT = toNumber(process.env.BASE_TIME_UNIT || 500);
@@ -12,12 +12,9 @@ env.TIMEOUT = toNumber(process.env.TIMEOUT || 60000);
 env.SHORT = toBoolean(process.env.SHORT);
 
 env.HTTP_CONFIG = {};
-if(process.env.HTTP_TIMEOUT)
-  { env.HTTP_CONFIG.timeout = toNumber(process.env.HTTP_TIMEOUT); }
-if(process.env.HTTP_RETRIES)
-  { env.HTTP_CONFIG.retries = toNumber(process.env.HTTP_RETRIES); }
-if(process.env.HTTP_RETRY_DELAY)
-  { env.HTTP_CONFIG.retryDelay = toNumber(process.env.HTTP_RETRY_DELAY); }
+if (process.env.HTTP_TIMEOUT) { env.HTTP_CONFIG.timeout = toNumber(process.env.HTTP_TIMEOUT); }
+if (process.env.HTTP_RETRIES) { env.HTTP_CONFIG.retries = toNumber(process.env.HTTP_RETRIES); }
+if (process.env.HTTP_RETRY_DELAY) { env.HTTP_CONFIG.retryDelay = toNumber(process.env.HTTP_RETRY_DELAY); }
 
 env.DEBUG_CONNECTION = process.env.DEBUG_CONNECTION;
 
@@ -27,14 +24,14 @@ env.BROWSER_SKIP = env.BROWSER;
 
 env.MULTI = false;
 
-if(env.BROWSER === 'multi') {
-    env.MULTI = true;
+if (env.BROWSER === 'multi') {
+  env.MULTI = true;
 }
 
 env.DESIRED = process.env.DESIRED ? JSON.parse(process.env.DESIRED) :
   {browserName: env.BROWSER};
 
-if(env.BROWSER === 'multi') {
+if (env.BROWSER === 'multi') {
   env.DESIRED = {browserName: 'chrome'};
 }
 
@@ -43,7 +40,7 @@ require('./mobile_env');
 env.EXPRESS_PORT = toNumber(process.env.EXPRESS_PORT || 3000);
 env.PROXY_PORT = toNumber(process.env.PROXY_PORT || 5050);
 
-if(env.ANDROID){
+if (env.ANDROID) {
   env.TIMEOUT = 300000;
 }
 
@@ -54,32 +51,32 @@ env.TRAVIS_JOB_ID = process.env.TRAVIS_JOB_ID;
 env.TRAVIS_JOB_NUMBER = process.env.TRAVIS_JOB_NUMBER;
 env.TRAVIS_BUILD_NUMBER = process.env.TRAVIS_BUILD_NUMBER;
 
-if( env.TRAVIS_JOB_ID ){
+if (env.TRAVIS_JOB_ID) {
   env.TRAVIS = true;
 }
 
-if(env.SAUCE) {
+if (env.SAUCE) {
   env.MIDWAY_ROOT_URL = "http://localhost:" + env.PROXY_PORT + '/' +
     env.EXPRESS_PORT;
 } else {
-  env.MIDWAY_ROOT_URL = "http://localhost:" +  env.EXPRESS_PORT;
+  env.MIDWAY_ROOT_URL = "http://localhost:" + env.EXPRESS_PORT;
 }
 
-if(env.SAUCE){
+if (env.SAUCE) {
   env.BASE_TIME_UNIT = toNumber(process.env.BASE_TIME_UNIT || 4000);
   env.TIMEOUT = toNumber(process.env.TIMEOUT || 600000);
 
   env.SAUCE_JOB_ID =
     env.TRAVIS_BUILD_NUMBER ||
     process.env.SAUCE_JOB_ID ||
-    Math.round(new Date().getTime() / (1000*60));
+    Math.round(new Date().getTime() / (1000 * 60));
   env.SAUCE_USERNAME = process.env.SAUCE_USERNAME;
   env.SAUCE_ACCESS_KEY = process.env.SAUCE_ACCESS_KEY;
   env.SAUCE_PLATFORM = process.env.SAUCE_PLATFORM || 'Linux';
   env.SAUCE_RECORD_VIDEO = toBoolean(process.env.SAUCE_RECORD_VIDEO);
   env.TUNNEL_IDENTIFIER = process.env.TUNNEL_IDENTIFIER;
 
-  if(env.SAUCE_CONNECT){
+  if (env.SAUCE_CONNECT) {
     env.REMOTE_CONFIG =
       'http://' + env.SAUCE_USERNAME + ':' + env.SAUCE_ACCESS_KEY +
         '@localhost:4445/wd/hub';
@@ -89,17 +86,17 @@ if(env.SAUCE){
         '@ondemand.saucelabs.com/wd/hub';
   }
 
-  if(!env.DESIRED.platformName) {
+  if (!env.DESIRED.platformName) {
     env.DESIRED.platform = env.DESIRED.platform || env.SAUCE_PLATFORM;
   }
   env.DESIRED.build = env.SAUCE_JOB_ID;
   env.DESIRED["record-video"] = env.SAUCE_RECORD_VIDEO;
   env.DESIRED.tags = env.DESIRED.tags || [];
   env.DESIRED.tags.push('wd');
-  if(env.TRAVIS_JOB_NUMBER){
+  if (env.TRAVIS_JOB_NUMBER) {
     env.DESIRED.tags.push('travis');
   }
-  if(env.TUNNEL_IDENTIFIER) {
+  if (env.TUNNEL_IDENTIFIER) {
     env.DESIRED['tunnel-identifier'] = env.TUNNEL_IDENTIFIER;
   }
 
@@ -111,9 +108,9 @@ if(env.SAUCE){
   }
 }
 
-if(env.MULTI){
-    env.ENV_DESC =  '(' + (env.SAUCE? 'sauce' : 'local') + ', multi)';
+if (env.MULTI) {
+  env.ENV_DESC = '(' + (env.SAUCE ? 'sauce' : 'local') + ', multi)';
 } else {
-    env.ENV_DESC =  '(' + (env.SAUCE? 'sauce' : 'local') + ', ' +
+  env.ENV_DESC = '(' + (env.SAUCE ? 'sauce' : 'local') + ', ' +
         (env.DESIRED.browserName || 'default') + ')';
 }

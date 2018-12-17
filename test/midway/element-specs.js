@@ -1,25 +1,25 @@
 require('../helpers/setup');
 
-var path = require('path');
+let path = require('path');
 
-describe('element ' + env.ENV_DESC, function() {
-  var partials = {};
+describe('element ' + env.ENV_DESC, function () {
+  let partials = {};
 
-  var browser;
-  require('./midway-base')(this, partials).then(function(_browser) { browser = _browser; });
+  let browser;
+  require('./midway-base')(this, partials).then(function (_browser) { browser = _browser; });
 
   partials['element.text'] =
     '<div id="theDiv">I am some text</div>';
-  it('element.text', function() {
-    return browser.elementById("theDiv").then(function(el) {
+  it('element.text', function () {
+    return browser.elementById("theDiv").then(function (el) {
       el.text().should.eventually.include("I am some text");
     });
   });
 
   partials['element.textPresent'] =
     '<div id="theDiv">I am some text</div>';
-  it('element.textPresent', function() {
-    return browser.elementById("theDiv").then(function(el) {
+  it('element.textPresent', function () {
+    return browser.elementById("theDiv").then(function (el) {
       return Q.all([
         el.textPresent("some text").should.eventually.be.ok,
         el.textPresent("wrong text").should.eventually.not.be.ok
@@ -29,7 +29,7 @@ describe('element ' + env.ENV_DESC, function() {
 
   partials['element.click'] =
     '<div id="theDiv"><a href="#">not clicked</a></div>';
-  it('element.click', function() {
+  it('element.click', function () {
     return browser
       .execute(
         'jQuery( function() {\n' +
@@ -41,7 +41,7 @@ describe('element ' + env.ENV_DESC, function() {
         '});\n'
       )
       .elementByCss('#theDiv a').text().should.become('not clicked')
-      .elementByCss('#theDiv a').then(function(el) {
+      .elementByCss('#theDiv a').then(function (el) {
         return el.click();
       })
       .elementByCss('#theDiv a').text().should.become('clicked');
@@ -49,7 +49,7 @@ describe('element ' + env.ENV_DESC, function() {
 
   partials['element.doubleClick'] =
     '<div id="theDiv"><a href="#">not clicked</a></div>';
-  it('element.doubleClick', function() {
+  it('element.doubleClick', function () {
     return browser
       .execute(
         'jQuery( function() {\n' +
@@ -61,7 +61,7 @@ describe('element ' + env.ENV_DESC, function() {
         '});\n'
       )
       .elementByCss('#theDiv a').text().should.become('not clicked')
-      .elementByCss('#theDiv a').then(function(el) {
+      .elementByCss('#theDiv a').then(function (el) {
         return el.doubleClick();
       })
       .elementByCss('#theDiv a').text().should.become('doubleclicked');
@@ -69,15 +69,15 @@ describe('element ' + env.ENV_DESC, function() {
 
   partials['element.moveTo'] =
     '<div id="theDiv"><a href="#">not clicked</a></div>';
-  it('element.moveTo', function() {
+  it('element.moveTo', function () {
     return browser
-      .elementByCss('#theDiv a').then(function(el) {
+      .elementByCss('#theDiv a').then(function (el) {
         return el.moveTo();
       })
-      .elementByCss('#theDiv a').then(function(el) {
+      .elementByCss('#theDiv a').then(function (el) {
         return el.moveTo(10, 10);
       });
-      // todo: write better tests using hover
+    // todo: write better tests using hover
   });
 
   partials['element.getTagName'] =
@@ -85,12 +85,12 @@ describe('element ' + env.ENV_DESC, function() {
     '  <input type="text">\n' +
     '  <a href="#">a1</a>\n' +
     '</div>\n';
-  it('element.getTagName', function() {
+  it('element.getTagName', function () {
     return browser
-      .elementByCss("#theDiv input").then(function(el) {
+      .elementByCss("#theDiv input").then(function (el) {
         return el.getTagName().should.become('input');
       })
-      .elementByCss("#theDiv a").then(function(el) {
+      .elementByCss("#theDiv a").then(function (el) {
         return el.getTagName().should.become('a');
       });
   });
@@ -100,15 +100,15 @@ describe('element ' + env.ENV_DESC, function() {
     '  <input class="displayed" type="text" value="Hello">\n' +
     '  <input class="hidden" type="hidden" value="Hello">\n' +
     '</div>\n';
-  it('element.isDisplayed', function() {
+  it('element.isDisplayed', function () {
     return browser
-      .elementByCss("#theDiv .displayed").then(function(el) {
+      .elementByCss("#theDiv .displayed").then(function (el) {
         return Q.all([
-            el.isDisplayed().should.eventually.be.ok,
-            el.displayed().should.eventually.be.ok,
-          ]);
+          el.isDisplayed().should.eventually.be.ok,
+          el.displayed().should.eventually.be.ok,
+        ]);
       })
-      .elementByCss("#theDiv .hidden").then(function(el) {
+      .elementByCss("#theDiv .hidden").then(function (el) {
         return el.isDisplayed().should.eventually.not.be.ok;
       });
   });
@@ -118,15 +118,15 @@ describe('element ' + env.ENV_DESC, function() {
     '  <input class="enabled" type="text" value="Hello">\n' +
     '  <input class="disabled" type="text" value="Hello" disabled>\n' +
     '</div>\n';
-  it('element.isEnabled', function() {
+  it('element.isEnabled', function () {
     return browser
-      .elementByCss("#theDiv .enabled").then(function(el) {
+      .elementByCss("#theDiv .enabled").then(function (el) {
         return Q.all([
-            el.isEnabled().should.eventually.be.ok,
-            el.enabled().should.eventually.be.ok,
-          ]);
+          el.isEnabled().should.eventually.be.ok,
+          el.enabled().should.eventually.be.ok,
+        ]);
       })
-      .elementByCss("#theDiv .disabled").then(function(el) {
+      .elementByCss("#theDiv .disabled").then(function (el) {
         return el.isEnabled().should.eventually.not.be.ok;
       });
   });
@@ -135,52 +135,52 @@ describe('element ' + env.ENV_DESC, function() {
     '<div id="theDiv">\n' +
     '  <a href="#">a1</a>\n' +
     '</div>\n';
-  it('element.getComputedCss', function() {
+  it('element.getComputedCss', function () {
     return browser
-      .elementByCss("#theDiv a").then(function(el) {
+      .elementByCss("#theDiv a").then(function (el) {
         return Q.all([
-            el.getComputedCss('color')
+          el.getComputedCss('color')
               .should.eventually.have.length.above(0),
-            el.getComputedCSS('color')
+          el.getComputedCSS('color')
               .should.eventually.have.length.above(0)
-          ]);
+        ]);
       })
-      ;
+    ;
   });
 
-  it('element.equals', function() {
+  it('element.equals', function () {
     return Q.all([
       browser.elementByTagName("body"),
       browser.elementByXPath("//body")
-    ]).then(function(els) {
+    ]).then(function (els) {
       return els[0].equals(els[1]).should.eventually.be.ok;
     });
   });
 
   partials['element.getAttribute'] =
     '<div id="theDiv" att="42">Attribute</div>\n';
-  it('element.getAttribute', function() {
+  it('element.getAttribute', function () {
     return browser
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el.getAttribute("att").should.become("42");
       });
   });
 
   partials['element.getValue'] =
     '<div id="theDiv" value="qwerty">Value</div>\n';
-  it('element.getValue', function() {
+  it('element.getValue', function () {
     return browser
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el.getValue().should.become("qwerty");
       });
   });
 
   partials['element.type'] =
     '<div id="theDiv"><input></input></div>\n';
-  it('element.type', function() {
+  it('element.type', function () {
     return browser
       .elementByCss("#theDiv input").getValue().should.become("")
-      .elementByCss("#theDiv input").then(function(el) {
+      .elementByCss("#theDiv input").then(function (el) {
         return el
           .type('hello')
           .getValue()
@@ -190,16 +190,16 @@ describe('element ' + env.ENV_DESC, function() {
 
   partials['element.keys'] =
     '<div id="theDiv"><input></input></div>\n';
-  it('element.keys', function() {
+  it('element.keys', function () {
     return browser
       .elementByCss("#theDiv input").getValue().should.become("")
-      .elementByCss("#theDiv input").then(function(el) {
+      .elementByCss("#theDiv input").then(function (el) {
         return el.click().keys('hello').getValue().should.become("hello");
       });
   });
 
 
-  if(!env.SAUCE) {
+  if (!env.SAUCE) {
     // weird stuff with typing on Sauce at the moment, commenting
     // until browser has been upgraded.
     partials['element.sendKeys'] =
@@ -207,19 +207,21 @@ describe('element ' + env.ENV_DESC, function() {
       '  <textarea></textarea>\n' +
       '  <input></input>\n' +
       '</div>\n';
-    it('element.sendKeys', function() {
+    it('element.sendKeys', function () {
       return browser
-        .elementByCss("#theDiv textarea").then(function(el) {
-          var sequence = [
-            function() { return el.sendKeys("keys").getValue().should.become("keys"); },
-            function() { return el.sendKeys([100136872.21, {}])
-              .getValue().should.become("keys100136872.21" + {}.toString()); }
+        .elementByCss("#theDiv textarea").then(function (el) {
+          let sequence = [
+            function () { return el.sendKeys("keys").getValue().should.become("keys"); },
+            function () {
+              return el.sendKeys([100136872.21, {}])
+              .getValue().should.become("keys100136872.21" + {}.toString());
+            }
           ];
           return sequence.reduce(Q.when, new Q());
         })
-        .elementByCss("#theDiv input").then(function(el) {
-          var filePath = path.resolve("test/mocha.opts");
-          return el.sendKeys(filePath).getValue().then(function(val) {
+        .elementByCss("#theDiv input").then(function (el) {
+          let filePath = path.resolve("test/mocha.opts");
+          return el.sendKeys(filePath).getValue().then(function (val) {
             val.should.include('mocha.opts');
             // check that the path was transformed, as the file was uploaded
             val.should.not.include(filePath);
@@ -230,12 +232,12 @@ describe('element ' + env.ENV_DESC, function() {
 
   partials['element.clear'] =
     '<div id="theDiv"><textarea>Not clear</textarea></div>\n';
-  it('element.clear', function() {
+  it('element.clear', function () {
     return browser
-      .elementByCss("#theDiv textarea").then(function(el) {
-        var sequence = [
-          function() { return el.getValue().should.become("Not clear"); },
-          function() { return el.clear().getValue().should.become(""); }
+      .elementByCss("#theDiv textarea").then(function (el) {
+        let sequence = [
+          function () { return el.getValue().should.become("Not clear"); },
+          function () { return el.clear().getValue().should.become(""); }
         ];
         return sequence.reduce(Q.when, new Q());
       });
@@ -244,16 +246,16 @@ describe('element ' + env.ENV_DESC, function() {
   partials['element.elementByTagName'] =
     '<div id="theDiv"><a href="#">a link</a></div>\n' +
     '<div id="theDiv2"><textarea></textarea></div>\n';
-  it('element.elementByTagName', function() {
+  it('element.elementByTagName', function () {
     return browser
       .setImplicitWaitTimeout(0)
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el.elementByTagName("a").text().should.become("a link");
       })
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el.elementByTagName("textarea").should.be.rejectedWith(/status: 7/);
       })
-      ;
+    ;
   });
 
   partials['element.elementsByTagName'] =
@@ -263,23 +265,23 @@ describe('element ' + env.ENV_DESC, function() {
     '  <a href="#">a link 3</a>\n' +
     '</div>\n' +
     '<div id="theDiv2"><textarea></textarea></div>\n';
-  it('element.elementsByTagName', function() {
+  it('element.elementsByTagName', function () {
     return browser
       .setImplicitWaitTimeout(0)
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el.elementsByTagName("a").should.eventually.have.length(3);
       })
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el.elementsByTagName("textarea").should.eventually.deep.equal([]);
       });
   });
 
   partials['element.sleep'] =
     '<div id="theDiv"></div>\n' +
-  it('element.sleep', function() {
+  it('element.sleep', function () {
     return browser
       .setImplicitWaitTimeout(0)
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el
           .sleep(100).should.be.fulfilled
           .sleep(100).should.be.fulfilled;
@@ -288,10 +290,10 @@ describe('element ' + env.ENV_DESC, function() {
 
   partials['element.noop'] =
     '<div id="theDiv"></div>\n' +
-  it('element.noop', function() {
+  it('element.noop', function () {
     return browser
       .setImplicitWaitTimeout(0)
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el
           .noop().should.be.fulfilled
           .sleep(100).should.be.fulfilled
@@ -301,10 +303,10 @@ describe('element ' + env.ENV_DESC, function() {
 
   partials['element.chain (promise)'] =
     '<div id="theDiv"></div>\n' +
-  it('element.chain (promise)', function() {
+  it('element.chain (promise)', function () {
     return browser
       .setImplicitWaitTimeout(0)
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el
           .chain().should.be.fulfilled
           .chain()
@@ -314,14 +316,14 @@ describe('element ' + env.ENV_DESC, function() {
 
   partials['element.resolve'] =
     '<div id="theDiv"></div>\n' +
-  it('element.resolve', function() {
-    var deferred = Q.defer();
-    setTimeout(function() {
+  it('element.resolve', function () {
+    let deferred = Q.defer();
+    setTimeout(function () {
       deferred.resolve('123');
     }, 250);
     return browser
       .setImplicitWaitTimeout(0)
-      .elementById("theDiv").then(function(el) {
+      .elementById("theDiv").then(function (el) {
         return el
           .resolve(deferred.promise)
           .noop()

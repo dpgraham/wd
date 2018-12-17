@@ -1,7 +1,7 @@
-var partials = {
+let partials = {
   one: '<div id="theDiv"/><input></div>\n',
   child: '<div class="theChild"><a>a child</a></div>',
-  several: 
+  several:
     '<div id="theDiv">\n' +
     '  <input>\n' +
     '  <input>\n' +
@@ -9,10 +9,10 @@ var partials = {
     '</div>\n'
 };
 
-var criterias = {
+let criterias = {
   valid: "//div[@id='theDiv']/input",
   invalid: "//div[@id='theInvalidDiv']/input",
   child: "//div[@class='theChild']"
 };
 
-require('../api-el-suffix-base').test('ByXPath','by-xpath', partials, criterias);
+require('../api-el-suffix-base').test('ByXPath', 'by-xpath', partials, criterias);
